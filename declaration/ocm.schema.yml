@@ -1,0 +1,60 @@
+# Open Commons Maintenance (OCM) 1.0 - machine-readable declaration
+# Copy this file as `ocm.yml` into your repository root and fill in
+# the values. Keep the keys unchanged so tools can rely on the schema.
+# This file is a declaration, not a license. Your LICENSE stays as-is.
+
+ocm: "1.0"
+project: {{PROJECT_SLUG}}          # e.g. "hubtask"
+license: {{SPDX_ID}}               # e.g. "Apache-2.0" or "AGPL-3.0-only"
+website: {{PROJECT_WEBSITE}}
+
+# --- How use is measured (do not change the OCM core rules) -----------
+unit: active_usage_equivalents
+measurement:
+  human_active_days_min: 3          # account active >=3 days/month = 1 AUE
+  agent_credentials: each_credential # each active credential = 1 AUE
+  fair_use_requests_per_month:
+    over_100k_min_aue: 3            # anti fleet-on-one-token safeguard
+    over_1m_min_aue: 10
+  dormant_threshold_days_per_year: 12
+  local_only: true                  # nothing leaves the server automatically
+
+# --- Tiers: fill in your own numbers -----------------------------------
+tiers:
+  - { id: S,   max_aue: 5,    reference_eur: 90 }
+  - { id: M,   max_aue: 25,   reference_eur: 360 }
+  - { id: L,   max_aue: 100,  reference_eur: 1200 }
+  - { id: XL,  max_aue: 500,  reference_eur: 4500 }
+  - { id: XXL, max_aue: 2000, reference_eur: 12000 }
+  - { id: beyond, per_aue_eur: 6 }
+
+# --- Classes: contribution orientation, not a purchase contract --------
+classes: { free: 0.0, community: 0.25, start: 0.55, reference: 1.0 }
+contribution_mode: voluntary        # voluntary | assurance | hosted
+
+# --- Payment routes -----------------------------------------------------
+payment:
+  github_sponsors: {{GITHUB_USERNAME}}
+  merchant_of_record: {{MOR_URL}}  # e.g. "https://polar.sh/yourname" (orgs, EU VAT)
+  open_collective: null             # only if you opt into T3 open bookkeeping
+
+# --- Guarantees (all four are mandatory for the OCM label) --------------
+guarantees: [no_feature_gate, no_rugpull_dco, no_lockout, no_billing_data]
+
+# --- Transparency -------------------------------------------------------
+transparency:
+  level: T2                         # T1 rules | T2 + annual report | T3 open ledger
+  fair_share_min: 0.70              # share of contributions flowing into maintenance
+  funding_band: "0-49"              # "0-49" | "50-99" | "100+"
+
+# --- Assurance (optional) ----------------------------------------------
+assurance:
+  available: true
+  details: {{CONTACT_MAILTO}}       # e.g. mailto:maintainer@example.org
+
+# --- Hosted variant / SaaS (optional, see OCM Hosted module) -----------
+hosted:
+  available: false                   # true when you offer a hosted service
+  components: [infrastructure, maintenance]  # separate, both public
+  fair_cap: true                    # public monthly cap on metered usage
+  free_quota: { aue: 1, storage_gb: 1 }
